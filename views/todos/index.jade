@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+	h1= Todo list 1
+	
+	ol
+		each todo in todos
+			li=
+				span todo.name
+				input(type='check')
