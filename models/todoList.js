@@ -8,7 +8,7 @@ var TodosSchema = new Schema({
 
 var TodoListsSchema = new Schema({
 	name: String,
-	todos: Array
+	todos: [TodosSchema]
 });
 
 module.exports = mongoose.model('todoLists', TodoListsSchema);
