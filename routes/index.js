@@ -6,5 +6,5 @@ module.exports = function () {
                     res.render('index', { title: 'Express' });
                 });
         }
-    }
+    };
 } ();

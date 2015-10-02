@@ -14,7 +14,7 @@ module.exports = function () {
             if (err) {
                 console.log(err);
             }
-        })
+        });
     };
 
     var getTodosId = function (req, res) {
@@ -37,7 +37,7 @@ module.exports = function () {
             todo.remove(function (err, removedTodo) {
                 res.end();
             });
-        })
+        });
     };
 
     return {
