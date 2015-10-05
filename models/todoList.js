@@ -11,4 +11,4 @@ var TodoListsSchema = new Schema({
 	todos: [TodosSchema]
 });
 
-module.exports = mongoose.model('todoLists', TodoListsSchema);
+module.exports = mongoose.model('todolists', TodoListsSchema);

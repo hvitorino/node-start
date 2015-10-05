@@ -1,13 +1,13 @@
 var TodoList = require('../models/todoList');
 
 module.exports = function () {
-    var getTodos = function (req, res) {
+    var getAllTodoLists = function (req, res) {
         TodoList.find(function (err, todos) {
             res.send(todos);
         });
     };
 
-    var postTodos = function (req, res) {
+    var createTodoList = function (req, res) {
         var newTodo = new TodoList(req.body);
 
         newTodo.save(function (err) {
@@ -17,13 +17,13 @@ module.exports = function () {
         });
     };
 
-    var getTodosId = function (req, res) {
+    var getOneTodoList = function (req, res) {
         TodoList.findOne({ _id: req.params.id }, function (err, todo) {
             res.json(todo);
         });
     };
 
-    var patchTodosId = function (req, res) {
+    var updateTodoList = function (req, res) {
         TodoList.findOne({ _id: req.params.id }, function (err, todo) {
             todo.text = res.body.text;
             todo.done = res.body.done;
@@ -32,7 +32,7 @@ module.exports = function () {
         });
     };
 
-    var deleteTodosId = function (req, res) {
+    var excludeTodoList = function (req, res) {
         TodoList.findOne({ _id: req.params.id }, function (err, todo) {
             todo.remove(function (err, removedTodo) {
                 res.end();
@@ -42,14 +42,14 @@ module.exports = function () {
 
     return {
         register: function (app) {
-            app.route('/todos')
-                .get(getTodos)
-                .post(postTodos);
+            app.route('/todolists')
+                .get(getAllTodoLists)
+                .post(createTodoList);
 
-            app.route('/todos/:id')
-                .get(getTodosId)
-                .patch(patchTodosId)
-                .delete(deleteTodosId);
+            app.route('/todolists/:id')
+                .get(getOneTodoList)
+                .patch(updateTodoList)
+                .delete(excludeTodoList);
         }
     }
 } ();
