@@ -1,6 +1,6 @@
 var TodoList = require('../models/todolist');
 
-module.exports = function () {
+module.exports = (function () {
     var getAllTodoLists = function (req, res) {
         TodoList.find(function (err, todos) {
             res.send(todos);
@@ -39,14 +39,26 @@ module.exports = function () {
             });
         });
     };
-    
+
     var createTodo = function (req, res) {
         TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
             todolist.addTodo({
                 text: req.body.text,
                 done: false
             });
-        });        
+        });
+    };
+    
+    var updateTodo = function (req, res) {
+        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+            var updatedTodo = todolist.todos.filter(function(todo){
+                return todo._id === req.params.todoid;
+            });
+            
+            updatedTodo.done = req.params.done;
+            
+            todolist.save();
+        });
     };
 
     return {
@@ -59,9 +71,12 @@ module.exports = function () {
                 .get(getOneTodoList)
                 .patch(updateTodoList)
                 .delete(excludeTodoList);
-                
+
             app.route('/todolists/:id/todo')
                 .post(createTodo);
+            
+            app.route('/todolists/:id/todo/:todoid')
+                .patch(updateTodo);
         }
     }
-} ();
+})();
