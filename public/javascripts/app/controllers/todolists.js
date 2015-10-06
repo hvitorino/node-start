@@ -9,22 +9,40 @@
         .controller('TodoLists', TodoLists);
 
     function TodoLists($scope, $http) {
+        var self = $scope;
+
+        self.addTodo = function () {
+            $scope.todolist.todos.push({
+                text: $scope.formData.text,
+                done: false
+            });
+            
+            $scope.formData.text = '';
+            
+            $http.patch('/todolists/5613f7a59f0bc50820f7dc10', $scope.todolist);
+        };
+        
+        self.todoStatusChanged = function (){
+            $http.patch('/todolists/5613f7a59f0bc50820f7dc10', $scope.todolist);
+        };
+
         $http.get('/todolists')
             .success(function (data) {
-                $scope.todolists = data;
+                $scope.todolist = data.filter(function (list) {
+                    return list._id === '5613f7a59f0bc50820f7dc10'
+                })[0];
 
-                $scope.todolists.forEach(function (todolist) {
-                    todolist.todos.forEach(function (todo) {
-                        $scope.$watch(todo.done, function (newValue, oldValue) {
-                            if (newValue !== oldValue) {
-                                $http.patch('/todolists/' + todolist._id + '/todo/' + todo._id, todo)
-                                    .error(function () {
-                                        todo.done = oldValue;
-                                    });
-                            }
-                        });
+                $scope.todolist.todos.forEach(function (todo) {
+                    $scope.$watch(todo.done, function (newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            $http.patch('/todolists/5613f7a59f0bc50820f7dc10/todo/' + todo._id, todo)
+                                .error(function () {
+                                    todo.done = oldValue;
+                                });
+                        }
                     });
                 });
+
             });
     };
 })();
