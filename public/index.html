@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="nodestart">
+<head>
+    <title>Todos</title>
+    <meta charset="utf-8" />
+    <link href="stylesheets/style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="javascripts/app/controllers/todolists.js"></script>
+</head>
+<body>
+
+<section ng-controller="todolists">
+    <header>
+        <h1>Todos</h1>
+    </header>
+    <article>
+        <ul>
+            <li ng-repeat="todo in todos">{{todo.name}}</li>
+        </ul>
+    </article>
+</section>
+
+</body>
+</html>

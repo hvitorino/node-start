@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../nodestart.app');
 var debug = require('debug')('node-start:server');
 var http = require('http');
 

@@ -5,10 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var AppRouter = require('./appRouter');
+var AppRouter = require('./nodestart.router');
 
 var app = express();
 
+// collections
 mongoose.connect('mongodb://localhost:27017/node-start');
 
 // view engine setup
