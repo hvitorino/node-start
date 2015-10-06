@@ -16,7 +16,7 @@ module.exports = (function () {
     };
 
     var updateTodoList = function (req, res) {
-        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+        TodoList.findOne(function (err, todolist) {
             todolist.name = req.body.name;
             todolist.todos = req.body.todos;
             

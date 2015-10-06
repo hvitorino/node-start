@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var AppRouter = require('./nodestart.router');
+var AppRouter = require('./nodestart-router');
 
 var app = express();
 
