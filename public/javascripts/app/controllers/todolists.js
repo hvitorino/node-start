@@ -10,6 +10,22 @@
 
     function TodoLists($scope, $http) {
         var self = $scope;
+        
+        $http.get('/todolists')
+            .success(function (data) {
+                $scope.todolist = data[0];
+
+                $scope.todolist.todos.forEach(function (todo) {
+                    $scope.$watch(todo.done, function (newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            $http.patch('/todolists/', $scope.todolist)
+                                .error(function () {
+                                    todo.done = oldValue;
+                                });
+                        }
+                    });
+                });
+            });
 
         self.addTodo = function () {
             $scope.todolist.todos.push({
@@ -19,27 +35,11 @@
 
             $scope.formData.text = '';
 
-            $http.patch('/todolists/5613f7a59f0bc50820f7dc10', $scope.todolist);
+            $http.patch('/todolists/' + $scope.todolist._id, $scope.todolist);
         };
 
         self.todoStatusChanged = function () {
-            $http.patch('/todolists/5613f7a59f0bc50820f7dc10', $scope.todolist);
+            $http.patch('/todolists/' + $scope.todolist._id, $scope.todolist);
         };
-        
-        $http.get('/todolists')
-            .success(function (data) {
-                $scope.todolist = data[0];
-
-                $scope.todolist.todos.forEach(function (todo) {
-                    $scope.$watch(todo.done, function (newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            $http.patch('/todolists/' + $scope.todolist +  '/todo/' + todo._id, todo)
-                                .error(function () {
-                                    todo.done = oldValue;
-                                });
-                        }
-                    });
-                });
-            });
     };
 })();
