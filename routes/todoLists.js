@@ -1,4 +1,4 @@
-var TodoList = require('../models/todoList');
+var TodoList = require('../models/todolist');
 
 module.exports = function () {
     var getAllTodoLists = function (req, res) {
@@ -18,26 +18,35 @@ module.exports = function () {
     };
 
     var getOneTodoList = function (req, res) {
-        TodoList.findOne({ _id: req.params.id }, function (err, todo) {
-            res.json(todo);
+        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+            res.json(todolist);
         });
     };
 
     var updateTodoList = function (req, res) {
-        TodoList.findOne({ _id: req.params.id }, function (err, todo) {
-            todo.text = res.body.text;
-            todo.done = res.body.done;
+        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+            todolist.text = res.body.text;
+            todolist.done = res.body.done;
 
             res.end();
         });
     };
 
     var excludeTodoList = function (req, res) {
-        TodoList.findOne({ _id: req.params.id }, function (err, todo) {
-            todo.remove(function (err, removedTodo) {
+        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+            todolist.remove(function (err, removedTodo) {
                 res.end();
             });
         });
+    };
+    
+    var createTodo = function (req, res) {
+        TodoList.findOne({ _id: req.params.id }, function (err, todolist) {
+            todolist.addTodo({
+                text: req.body.text,
+                done: false
+            });
+        });        
     };
 
     return {
@@ -50,6 +59,9 @@ module.exports = function () {
                 .get(getOneTodoList)
                 .patch(updateTodoList)
                 .delete(excludeTodoList);
+                
+            app.route('/todolists/:id/todo')
+                .post(createTodo);
         }
     }
 } ();
