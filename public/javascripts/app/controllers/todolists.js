@@ -14,17 +14,6 @@
         $http.get('/todolists')
             .success(function (data) {
                 $scope.todolist = data[0];
-
-                $scope.todolist.todos.forEach(function (todo) {
-                    $scope.$watch(todo.done, function (newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            $http.patch('/todolists/', $scope.todolist)
-                                .error(function () {
-                                    todo.done = oldValue;
-                                });
-                        }
-                    });
-                });
             });
 
         self.addTodo = function () {
@@ -35,11 +24,11 @@
 
             $scope.formData.text = '';
 
-            $http.patch('/todolists/' + $scope.todolist._id, $scope.todolist);
+            $http.put('/todolists/' + $scope.todolist._id, $scope.todolist);
         };
 
         self.todoStatusChanged = function () {
-            $http.patch('/todolists/' + $scope.todolist._id, $scope.todolist);
+            $http.put('/todolists/' + $scope.todolist._id, $scope.todolist);
         };
     };
 })();

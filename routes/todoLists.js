@@ -33,7 +33,7 @@ module.exports = (function () {
 
             app.route('/todolists/:id')
                 .get(getOneTodoList)
-                .patch(updateTodoList);
+                .put(updateTodoList);
         }
     }
 })();
